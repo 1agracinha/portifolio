@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:port/pages/home_page/widgets/window/header_widget.dart';
 
 class WindowWidget extends StatefulWidget {
-  const WindowWidget({
-    Key? key,
-  }) : super(key: key);
+  final Function onTap;
+  final String textoCabecalho;
+  final Key key;
+  const WindowWidget(
+      {required this.onTap, required this.key, required this.textoCabecalho})
+      : super(key: key);
 
   @override
   _WindowWidgetState createState() => _WindowWidgetState();
@@ -15,6 +19,7 @@ class _WindowWidgetState extends State<WindowWidget> {
   bool isDragging = false;
   bool isVisible = true;
   bool isMaximized = false;
+
   @override
   Widget build(BuildContext context) {
     print("ISMAX: $isMaximized");
@@ -28,6 +33,7 @@ class _WindowWidgetState extends State<WindowWidget> {
             elevation: 0,
             color: Colors.transparent,
             child: caixaGradiente(
+                texto: widget.textoCabecalho,
                 widget: Text(""),
                 width: isMaximized
                     ? MediaQuery.of(context).size.width * 0.8
@@ -39,11 +45,13 @@ class _WindowWidgetState extends State<WindowWidget> {
         ),
         onDragStarted: () {
           isDragging = true;
+          widget.onTap();
         },
         feedback: Card(
           elevation: 0,
           color: Colors.transparent,
           child: caixaGradiente(
+              texto: widget.textoCabecalho,
               widget: Text(""),
               width: isMaximized
                   ? MediaQuery.of(context).size.width * 0.8
@@ -63,11 +71,11 @@ class _WindowWidgetState extends State<WindowWidget> {
     );
   }
 
-  Widget caixaGradiente({
-    required Widget widget,
-    required double width,
-    required double height,
-  }) {
+  Widget caixaGradiente(
+      {required Widget widget,
+      required double width,
+      required double height,
+      required String texto}) {
     Color cor1 = Colors.white;
     Color cor2 = Colors.grey;
     return Container(
@@ -75,7 +83,7 @@ class _WindowWidgetState extends State<WindowWidget> {
         child: Column(
           children: [
             cabecalho(
-                text: "teste",
+                text: texto,
                 onClose: () {
                   setState(() {
                     isVisible = false;
@@ -103,6 +111,8 @@ class _WindowWidgetState extends State<WindowWidget> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
+              // Colors.yellow,
+              // Colors.yellow,
               cor2.withOpacity(0.1),
               cor1.withOpacity(0.2),
               cor1.withOpacity(0.3),

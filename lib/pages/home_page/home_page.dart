@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:port/pages/home_page/widgets/task_bar_icon_widget.dart';
 import 'package:port/pages/home_page/widgets/task_bar_widget.dart';
@@ -36,30 +38,41 @@ class _HomePageState extends State<HomePage> {
       Stack(
         children: [
           ...openWindows,
-          TextButton(
-              onPressed: () {
-                setState(() {
-                  openWindows.add(WindowWidget());
-                });
-              },
-              child: Text("teste")),
           taskBarWidget(context, widgets: [
             taskBarIconWidget(Icons.article, () {
-              addWindow(WindowWidget());
+              addWindow(inicializaWindowWidget(textoCabecalho: "Projetos"));
             }),
             taskBarIconWidget(Icons.account_circle, () {
-              addWindow(WindowWidget());
+              addWindow(inicializaWindowWidget(textoCabecalho: "Sobre"));
             }),
             taskBarIconWidget(Icons.email, () {
-              addWindow(WindowWidget());
+              addWindow(inicializaWindowWidget(textoCabecalho: "Contato"));
             }),
             taskBarIconWidget(Icons.people, () {
-              addWindow(WindowWidget());
+              addWindow(inicializaWindowWidget(textoCabecalho: "Redes"));
             }),
           ]),
         ],
       ),
     );
+  }
+
+  WindowWidget inicializaWindowWidget({required String textoCabecalho}) {
+    final random = Random.secure().nextInt(1000);
+    return WindowWidget(
+        key: ValueKey<int>(random),
+        textoCabecalho: textoCabecalho,
+        onTap: () {
+          final index = openWindows.indexOf(openWindows.firstWhere(
+            (janela) => janela.key == ValueKey<int>(random),
+          ));
+          final newWindow = openWindows[index];
+
+          setState(() {
+            openWindows.removeAt(index);
+            openWindows.add(newWindow);
+          });
+        });
   }
 
   void addWindow(WindowWidget widget) {
