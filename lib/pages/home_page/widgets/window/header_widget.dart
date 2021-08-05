@@ -12,7 +12,7 @@ Widget cabecalho(
         padding: EdgeInsets.only(left: 10),
         child: Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.grey[600]),
         ),
       ),
       Wrap(
@@ -23,7 +23,7 @@ Widget cabecalho(
               child: IconButton(
                 icon: Icon(
                   Icons.remove,
-                  color: Colors.white,
+                  color: Colors.grey[600],
                 ),
                 onPressed: onMinimize,
               )),
@@ -32,7 +32,7 @@ Widget cabecalho(
               child: IconButton(
                 icon: Icon(
                   Icons.personal_video,
-                  color: Colors.white,
+                  color: Colors.grey[600],
                   size: 20,
                 ),
                 onPressed: onExpand,
@@ -44,7 +44,7 @@ Widget cabecalho(
               child: IconButton(
                 icon: Icon(
                   Icons.cancel,
-                  color: Colors.white,
+                  color: Colors.grey[600],
                   size: 20,
                 ),
                 onPressed: onClose,
