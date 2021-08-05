@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:port/pages/home_page/home_page.dart';
-import 'package:port/pages/welcome_page/welcome_page.dart';
+import 'dart:html';
 
 void main() {
+  window.document.onContextMenu.listen((evt) => evt.preventDefault());
   runApp(MyApp());
 }
 
