@@ -102,7 +102,11 @@ class _WindowWidgetState extends State<WindowWidget> {
                         : Offset(465.0, 13.0);
                   });
                 },
-                onMinimize: () {}),
+                onMinimize: () {
+                  setState(() {
+                    isVisible = false;
+                  });
+                }),
             Expanded(
               child: Container(
                 width: MediaQuery.of(context).size.width,
