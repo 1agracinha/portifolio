@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:port/pages/home_page/widgets/window/header_widget.dart';
 
 class WindowWidget extends StatefulWidget {
   final Function onTap;
   final String textoCabecalho;
   final Key key;
+  final Widget conteudo;
   const WindowWidget(
-      {required this.onTap, required this.key, required this.textoCabecalho})
+      {required this.onTap,
+      required this.key,
+      required this.textoCabecalho,
+      required this.conteudo})
       : super(key: key);
 
   @override
@@ -22,7 +25,6 @@ class _WindowWidgetState extends State<WindowWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("ISMAX: $isMaximized");
     return Positioned(
       left: position.dx,
       top: position.dy,
@@ -34,7 +36,7 @@ class _WindowWidgetState extends State<WindowWidget> {
             color: Colors.transparent,
             child: caixaGradiente(
                 texto: widget.textoCabecalho,
-                widget: Text(""),
+                widget: widget.conteudo,
                 width: isMaximized
                     ? MediaQuery.of(context).size.width * 0.8
                     : MediaQuery.of(context).size.height * 0.7,
@@ -44,7 +46,9 @@ class _WindowWidgetState extends State<WindowWidget> {
           ),
         ),
         onDragStarted: () {
-          isDragging = true;
+          setState(() {
+            isDragging = true;
+          });
           widget.onTap();
         },
         feedback: Card(
@@ -52,12 +56,12 @@ class _WindowWidgetState extends State<WindowWidget> {
           color: Colors.transparent,
           child: caixaGradiente(
               texto: widget.textoCabecalho,
-              widget: Text(""),
+              widget: widget.conteudo,
               width: isMaximized
                   ? MediaQuery.of(context).size.width * 0.8
                   : MediaQuery.of(context).size.height * 0.7,
               height: isMaximized
-                  ? MediaQuery.of(context).size.width * 0.7
+                  ? MediaQuery.of(context).size.width * 0.4
                   : MediaQuery.of(context).size.height * 0.6),
         ),
         onDragEnd: (details) {
@@ -71,11 +75,12 @@ class _WindowWidgetState extends State<WindowWidget> {
     );
   }
 
-  Widget caixaGradiente(
-      {required Widget widget,
-      required double width,
-      required double height,
-      required String texto}) {
+  Widget caixaGradiente({
+    required Widget widget,
+    required double width,
+    required double height,
+    required String texto,
+  }) {
     Color cor1 = Colors.white;
     Color cor2 = Colors.grey;
     return Container(
@@ -97,7 +102,16 @@ class _WindowWidgetState extends State<WindowWidget> {
                         : Offset(465.0, 13.0);
                   });
                 },
-                onMinimize: () {})
+                onMinimize: () {}),
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: SingleChildScrollView(
+                  child: widget,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -106,19 +120,21 @@ class _WindowWidgetState extends State<WindowWidget> {
       margin: EdgeInsets.only(top: 40),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white, width: 0.5),
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              // Colors.yellow,
-              // Colors.yellow,
-              cor2.withOpacity(0.1),
-              cor1.withOpacity(0.2),
-              cor1.withOpacity(0.3),
-              cor2.withOpacity(0.1),
-            ],
-          )),
+          border: Border.all(color: Colors.grey, width: 0.5),
+          color: Colors.grey[100]
+          // gradient: LinearGradient(
+          //   begin: Alignment.topRight,
+          //   end: Alignment.bottomLeft,
+          //   colors: [
+          //     // Colors.yellow,
+          //     // Colors.yellow,
+          //     cor2.withOpacity(0.1),
+          //     cor1.withOpacity(0.2),
+          //     cor1.withOpacity(0.3),
+          //     cor2.withOpacity(0.1),
+          //   ],
+          // ),
+          ),
     );
   }
 }
